@@ -2,5 +2,5 @@
 
 int main()
 {
-	std::cout << "Lolen\n";
+	std::cout << "We will start making the BullCowGame\n";
 }
