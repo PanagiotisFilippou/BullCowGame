@@ -24,14 +24,15 @@ public:
 	void Reset(); // TODO Make a rich return value
 	int32 GetMaxTries() const;
 	int32 GetCurrentTry() const;
-	int32 GetHiddenWordLenght() const;
+	int32 GetHiddenWordLength() const;
 	bool IsGameWon() const;
 	EGuessStatus CheckGuessValitidy(FString) const; // TODO Make a rich return value
 	// Counts Bulls And Cows And Increases Try Number, Assuming That Guess Is Valid
-	FBullCowCount SubmitGuess(FString);
+	FBullCowCount SubmitValidGuess(FString);
 private:
 	int32 MyCurrentTry; //initialized in constructor
 	int32 MyMaxTries;
-	bool IsIsogram;
 	FString MyHiddenWord;
+	bool bGameIsWon;
+
 };

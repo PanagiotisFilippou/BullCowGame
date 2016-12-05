@@ -11,26 +11,55 @@ int32 FBullCowGame::GetCurrentTry() const
 {
 	return MyCurrentTry;
 }
-int32 FBullCowGame::GetHiddenWordLenght() const
+int32 FBullCowGame::GetHiddenWordLength() const
 {
 	return MyHiddenWord.length();
 }
 bool FBullCowGame::IsGameWon() const
 {
-	return false;
+	return bGameIsWon;
 }
-FBullCowCount FBullCowGame::SubmitGuess(FString Guess) // Receives a VALID guess, incriments turn, returns count. 
+void FBullCowGame::Reset()
 {
-	//incriment the turn number
+	constexpr int32 MAX_TRIES = 8;
+	const FString HIDDEN_WORD = "ant";
+	MyMaxTries = MAX_TRIES;
+	MyHiddenWord = HIDDEN_WORD;
+	MyCurrentTry = 1;
+	bGameIsWon = false;
+	return;
+}
+EGuessStatus FBullCowGame::CheckGuessValitidy(FString Guess) const
+{
+	if (false)
+	{
+		return EGuessStatus::Not_Isogram;
+	}
+	else if (false)
+	{
+		return EGuessStatus::Not_LowerCase;
+	}
+	else if (Guess.length() != GetHiddenWordLength())
+	{
+		return EGuessStatus::Wrong_Length;
+	}
+	else
+	{
+		return EGuessStatus::OK;
+
+	}
+}
+FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess) // Receives a VALID guess, incriments turn, returns count. 
+{
 	MyCurrentTry++;
 	//setup reset variable
 	FBullCowCount BullCowCount;
-	//loop all letters in guess
-	int32 HiddenWordLenght = MyHiddenWord.length();
-	for (int32 MyHiddenWordChar = 0; MyHiddenWordChar < HiddenWordLenght; MyHiddenWordChar++)
+	//loop all letters in hidden word
+	int32 HiddenWordLength = MyHiddenWord.length();
+	for (int32 MyHiddenWordChar = 0; MyHiddenWordChar < HiddenWordLength; MyHiddenWordChar++)
 	{
 		//compare letters against the hidden word
-		for (int32 GuessChar = 0; GuessChar < HiddenWordLenght; GuessChar++)
+		for (int32 GuessChar = 0; GuessChar < HiddenWordLength; GuessChar++)
 		{
 			// if they match then:
 			if (Guess[GuessChar] == MyHiddenWord[MyHiddenWordChar])
@@ -51,34 +80,14 @@ FBullCowCount FBullCowGame::SubmitGuess(FString Guess) // Receives a VALID guess
 			}
 		}
 	}
-	return BullCowCount;
-}
-EGuessStatus FBullCowGame::CheckGuessValitidy(FString Guess) const
-{
-	if (false)
+	if (BullCowCount.Bulls == HiddenWordLength)
 	{
-		return EGuessStatus::Not_LowerCase;
-	}
-	else if (false)
-	{
-		return EGuessStatus::Not_Isogram;
-	}
-	else if (Guess.length() != GetHiddenWordLenght())
-	{
-		return EGuessStatus::Wrong_Length;
+		bGameIsWon = true;
 	}
 	else
 	{
-		return EGuessStatus::OK;
+		bGameIsWon = false;
 
 	}
-}
-void FBullCowGame::Reset()
-{
-	constexpr int32 MAX_TRIES = 8;
-	MyMaxTries = MAX_TRIES;
-	const FString HIDDEN_WORD = "ant";
-	MyHiddenWord = HIDDEN_WORD;
-	MyCurrentTry = 1;
-	return;
+	return BullCowCount;
 }
