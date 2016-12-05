@@ -29,7 +29,7 @@ FBullCowCount FBullCowGame::SubmitGuess(FString Guess) // Receives a VALID guess
 	int32 HiddenWordLenght = MyHiddenWord.length();
 	for (int32 MyHiddenWordChar = 0; MyHiddenWordChar < HiddenWordLenght; MyHiddenWordChar++)
 	{
-	//compare letters against the hidden word
+		//compare letters against the hidden word
 		for (int32 GuessChar = 0; GuessChar < HiddenWordLenght; GuessChar++)
 		{
 			// if they match then:
@@ -53,9 +53,25 @@ FBullCowCount FBullCowGame::SubmitGuess(FString Guess) // Receives a VALID guess
 	}
 	return BullCowCount;
 }
-EWordStatus FBullCowGame::CheckGuessValitidy(std::string) const
+EGuessStatus FBullCowGame::CheckGuessValitidy(FString Guess) const
 {
-	return EWordStatus::OK; // TODO make actual error
+	if (false)
+	{
+		return EGuessStatus::Not_LowerCase;
+	}
+	else if (false)
+	{
+		return EGuessStatus::Not_Isogram;
+	}
+	else if (Guess.length() != GetHiddenWordLenght())
+	{
+		return EGuessStatus::Wrong_Length;
+	}
+	else
+	{
+		return EGuessStatus::OK;
+
+	}
 }
 void FBullCowGame::Reset()
 {
