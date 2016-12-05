@@ -31,9 +31,8 @@ int main()
 void PrintIntro()
 {
 	// Introduce the game
-	constexpr int32 WORD_LENGHT = 666; // Apofygh "magic numbers", eukolh allagh metavliths se olo to programma.
 	std::cout << "Welcome to BullCowGame game!\n"
-		<< "Can you guess the " << WORD_LENGHT
+		<< "Can you guess the " << BCGame.GetHiddenWordLenght()
 		<< "th letter isogram I'm thinking of? \n";
 	return;
 }
@@ -44,12 +43,16 @@ void PlayGame()
 	int32 MaxTries = BCGame.GetMaxTries();
 	// loop for the number of turns asking for quesses
 	// TODO change from FOR to WHILE loop ince we are validating tries
-	std::cout << "The Maximum number of tries is: " << MaxTries << std::endl;
+	std::cout << "The Maximum number of tries is: " << MaxTries << std::endl<<std::endl;
 	for (int32 count = 1; count <= MaxTries; count++)
 	{
 		FText Guess = GetGuess(); // TODO make loop checking valid guesses
-		// Submit valid guess to the game
+		// Submit valid guess to the game, receive count
+		FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
 		// Print numer of Bulls and Cows
+		std::cout << "Bulls = " << BullCowCount.Bulls << std::endl;
+		std::cout << "Cows = " << BullCowCount.Cows << std::endl << std::endl;
+
 		std::cout <<"Your Guess Is: "<< Guess << std::endl;
 	}
 }
@@ -58,7 +61,7 @@ FText GetGuess()
 	int32 ThisCurrentTry = BCGame.GetCurrentTry();
 	std::cout << "The current try is: " << ThisCurrentTry << std::endl;
 	// Get a guess from the player.
-	std::cout << "Please enter your Guess: ";
+	std::cout << "\nPlease enter your Guess: " << std::endl;
 	FText Guess = "";
 	getline(std::cin, Guess);
 	return Guess;
