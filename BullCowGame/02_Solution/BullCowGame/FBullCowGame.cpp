@@ -1,12 +1,10 @@
 #include "FBullCowGame.h"
+#include<map>
+#define TMap std::map
 FBullCowGame::FBullCowGame()
 {
 	Reset();
-}
-int32 FBullCowGame::GetMaxTries() const
-{
-	return MyMaxTries;
-}
+}// default constructor
 int32 FBullCowGame::GetCurrentTry() const
 {
 	return MyCurrentTry;
@@ -19,11 +17,15 @@ bool FBullCowGame::IsGameWon() const
 {
 	return bGameIsWon;
 }
+int32 FBullCowGame::GetMaxTries() const
+{
+	TMap<int32, int32> WordLenghtToMaxTries{ {3, 4}, {4, 7}, {5, 10}, {6, 16}, {7, 25} };
+	return WordLenghtToMaxTries[MyHiddenWord.length()];//returns the matching no. of tries with word lenght
+}
 void FBullCowGame::Reset()
 {
-	constexpr int32 MAX_TRIES = 8;
-	const FString HIDDEN_WORD = "ant";
-	MyMaxTries = MAX_TRIES;
+	constexpr int32 MAX_TRIES = 7;
+	const FString HIDDEN_WORD = "plane";
 	MyHiddenWord = HIDDEN_WORD;
 	MyCurrentTry = 1;
 	bGameIsWon = false;
@@ -31,11 +33,11 @@ void FBullCowGame::Reset()
 }
 EGuessStatus FBullCowGame::CheckGuessValitidy(FString Guess) const
 {
-	if (false)
+	if (!IsIsogram(Guess)) // if the quess is not an isogram
 	{
 		return EGuessStatus::Not_Isogram;
 	}
-	else if (false)
+	else if (!IsLowerCase(Guess))
 	{
 		return EGuessStatus::Not_LowerCase;
 	}
@@ -90,4 +92,39 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess) // Receives a VALID 
 
 	}
 	return BullCowCount;
+}
+bool FBullCowGame::IsIsogram(FString Word) const
+{
+	if (Word.length() <= 1) // all 0 and 1 words are isogram obviously 
+	{
+		return true;
+	}
+
+	TMap<char, bool> LetterSeen; // map setup
+	for (auto Letter : Word) // ranged based for loop, for all letters of word
+	{
+		Letter = tolower(Letter); // handle mixed case
+		if (LetterSeen[Letter]) // if letter is in the map
+		{
+			return false; // we do not have an isogram
+		}
+		else
+		{
+			LetterSeen[Letter] = true; // add letter to map as seen
+		}
+	}
+
+	return true;
+}
+
+bool FBullCowGame::IsLowerCase(FString Word) const
+{
+	for (auto Letter : Word)
+	{
+		if (!islower(Letter))// if not a lower case letter 
+		{
+			return false;
+		}
+	}
+	return true;
 }

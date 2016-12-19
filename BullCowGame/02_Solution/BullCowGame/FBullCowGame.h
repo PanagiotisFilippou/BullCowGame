@@ -31,8 +31,9 @@ public:
 	FBullCowCount SubmitValidGuess(FString);
 private:
 	int32 MyCurrentTry; //initialized in constructor
-	int32 MyMaxTries;
 	FString MyHiddenWord;
 	bool bGameIsWon;
+	bool IsIsogram(FString) const;
+	bool IsLowerCase(FString) const;
 
 };
