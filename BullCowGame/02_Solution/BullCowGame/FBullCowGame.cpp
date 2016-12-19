@@ -1,3 +1,4 @@
+#pragma once
 #include "FBullCowGame.h"
 #include<map>
 #define TMap std::map
@@ -25,7 +26,7 @@ int32 FBullCowGame::GetMaxTries() const
 void FBullCowGame::Reset()
 {
 	constexpr int32 MAX_TRIES = 7;
-	const FString HIDDEN_WORD = "plane";
+	const FString HIDDEN_WORD = "ant"; // this MUST be an isogram
 	MyHiddenWord = HIDDEN_WORD;
 	MyCurrentTry = 1;
 	bGameIsWon = false;

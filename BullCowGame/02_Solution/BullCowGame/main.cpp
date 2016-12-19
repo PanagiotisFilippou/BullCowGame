@@ -119,6 +119,6 @@ void PrintGameSummary()
 	}
 	else
 	{
-		std::cout << "Better Luck Next Time\n";
+		std::cout << "\n\nBetter Luck Next Time :(";
 	}
 }
